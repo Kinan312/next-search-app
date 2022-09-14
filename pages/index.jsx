@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react';
 import Link from 'next/link'
 import Footer from '../components/Footer';
+// import '../styles/styles.css'
 
 export default function Home(initialData) {
   const [searchResults, setSearchResults] = useState([])
@@ -27,13 +28,17 @@ export default function Home(initialData) {
     let { name, value } = e.target
     setFormInputs({ ...formInputs, [name]: value });
   }
+
+  const myLoader = ({ src, width, quality }) => {
+    return `${src}?w=${width}&q=${quality || 75}`
+  }
+
   return (
     <div className='container'>
       <Head>
         <title>Create Next App</title>
         <meta name="description" content="Love giphys? We do too. Use our advanced giphy search to find the perfect giphy for any occation"></meta>
         <link rel="icon" href="/favicon.ico" />
-        <link rel="stylesheet" href="/styles.css" />
       </Head>
 
       <h1>Search App</h1>
@@ -62,7 +67,7 @@ export default function Home(initialData) {
           return (
             <div key={index}>
               <h3>{each.title}</h3>
-              <img src={each.images.original.url} alt={each.title} />
+              <Image src={each.images.original.url} alt={each.title} width={300} height={300} loader={myLoader} />
             </div>
           )
         })}

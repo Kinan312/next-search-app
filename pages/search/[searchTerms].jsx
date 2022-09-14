@@ -2,20 +2,24 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react';
 import Link from 'next/link'
+import Image from 'next/image'
 import Footer from '../../components/Footer';
 
 export default function Search(initialData) {
     const router = useRouter();
     useEffect(() => {
         console.log('router', router)
-    }, [])
+    })
+
+    const myLoader = ({ src, width, quality }) => {
+        return `${src}?w=${width}&q=${quality || 75}`
+    }
     return (
         <>
             <Head>
                 <title>Search results for: {router.query.searchTerms}</title>
                 <meta name="description" content={initialData.catsGiphy.map((each, index) => each.title + ' ')}></meta>
                 <link rel="icon" href="/favicon.ico" />
-                <link rel="stylesheet" href="/styles.css" />
             </Head>
             <p>Go <Link href="/"><a>home</a></Link></p>
             <h1>Search results for: {router.query.searchTerms}</h1>
@@ -25,7 +29,7 @@ export default function Search(initialData) {
                     return (
                         <div key={index}>
                             <h3>{each.title}</h3>
-                            <img src={each.images.original.url} alt={each.title} />
+                            <Image src={each.images.original.url} alt={each.title} width={300} height={300} loader={myLoader} />
                         </div>
                     )
                 })}
